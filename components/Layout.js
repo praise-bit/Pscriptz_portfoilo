@@ -1,13 +1,19 @@
-import Footer from "./Footer";
-import Navbar from "./Navbar";
+// 'use client' not needed here
+import "../globals.css";
+import Navbar from "../components/Navbar";
 
-const Layout = ({ children }) => {
-  return (
-    <div className="content">
-      <Navbar />
-      {children}
-      <Footer />
-    </div>
-  );
+export const metadata = {
+  title: "pscriptz | Portfolio",
+  description: "Web3 Developer Portfolio by Praise",
 };
-export default Layout;
+
+export default function RootLayout({ children }) {
+  return (
+    <html lang="en">
+      <body>
+        <Navbar />
+        <main className="px-6 py-4">{children}</main>
+      </body>
+    </html>
+  );
+}

@@ -1,38 +1,42 @@
+"use client";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+
+const navLinks = [
+  { name: "Home", path: "/" },
+  { name: "About", path: "/about" },
+  { name: "Projects", path: "/projects" },
+  { name: "Contact", path: "/contact" },
+];
 
 export default function Navbar() {
-  const router = useRouter();
+  const pathname = usePathname();
+  const [show, setShow] = useState(false);
 
-  const linkStyle = (path) =>
-    `hover:text-accent transition ${
-      router.pathname === path ? "text-accent font-semibold" : "text-gray-300"
-    }`;
+  useEffect(() => {
+    setShow(true);
+  }, []);
 
   return (
-    <nav className="w-full fixed top-0 left-0 z-50 bg-primary border-b border-secondary px-6 md:px-20 py-4 flex justify-between items-center">
-      {/* Logo */}
-      <Link
-        href="/"
-        className="text-xl md:text-2xl text-accent font-mono font-bold"
-      >
-        pscriptz
-      </Link>
-
-      {/* Links */}
-      <div className="space-x-6 text-sm md:text-base font-mono">
-        <Link href="/" className={linkStyle("/")}>
-          Home
-        </Link>
-        <Link href="/about" className={linkStyle("/about")}>
-          About
-        </Link>
-        <Link href="/projects" className={linkStyle("/projects")}>
-          Projects
-        </Link>
-        <Link href="/contact" className={linkStyle("/contact")}>
-          Contact
-        </Link>
+    <nav
+      className={`w-full py-4 px-6 flex justify-between items-center border-b border-gray-700 ${
+        show ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4"
+      } transition-all duration-500`}
+    >
+      <div className="text-primary font-bold text-xl">pscriptz</div>
+      <div className="space-x-4">
+        {navLinks.map((link) => (
+          <Link
+            key={link.name}
+            href={link.path}
+            className={`text-sm ${
+              pathname === link.path ? "text-primary underline" : "text-white"
+            }`}
+          >
+            {link.name}
+          </Link>
+        ))}
       </div>
     </nav>
   );
